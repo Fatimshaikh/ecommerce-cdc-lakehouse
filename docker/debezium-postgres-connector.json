@@ -1,0 +1,16 @@
+{
+  "name": "ecom-postgres-connector",
+  "config": {
+    "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
+    "database.hostname": "postgres",
+    "database.port": "5432",
+    "database.user": "ecom_user",
+    "database.password": "ecom_pass",
+    "database.dbname": "ecommerce",
+    "topic.prefix": "ecom",
+    "table.include.list": "public.customers,public.products,public.orders,public.order_items,public.payments",
+    "plugin.name": "pgoutput",
+    "slot.name": "ecom_slot",
+    "publication.autocreate.mode": "filtered"
+  }
+}

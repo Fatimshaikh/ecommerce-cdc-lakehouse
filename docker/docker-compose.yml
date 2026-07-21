@@ -1,4 +1,3 @@
-
 services:
   postgres:
     image: postgres:16
@@ -26,6 +25,49 @@ services:
       interval: 5s
       timeout: 5s
       retries: 10
+    networks:
+      - cdc_net
+
+  zookeeper:
+    image: debezium/zookeeper:2.5
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+    networks:
+      - cdc_net
+
+  kafka:
+    image: debezium/kafka:2.5
+    container_name: kafka
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+    environment:
+      ZOOKEEPER_CONNECT: zookeeper:2181
+    networks:
+      - cdc_net
+
+  connect:
+    image: debezium/connect:2.5
+    container_name: connect
+    depends_on:
+      - kafka
+      - postgres
+    ports:
+      - "8083:8083"
+    environment:
+      BOOTSTRAP_SERVERS: kafka:9092
+      GROUP_ID: ecom_connect_cluster
+      CONFIG_STORAGE_TOPIC: ecom_connect_configs
+      OFFSET_STORAGE_TOPIC: ecom_connect_offsets
+      STATUS_STORAGE_TOPIC: ecom_connect_status
+    networks:
+      - cdc_net
 
 volumes:
   pg_data:
+
+networks:
+  cdc_net:
+    driver: bridge
