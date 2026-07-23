@@ -59,7 +59,7 @@ flowchart LR
 
 - [x] Phase 1 -- Foundation: OLTP schema, Postgres, traffic generator
 - [x] Phase 2 -- CDC: Debezium + Kafka
-- [ ] Phase 3 -- Lakehouse: MinIO + Delta Lake
+- [x] Phase 3 -- Lakehouse: MinIO + Delta Lake
 - [ ] Phase 4 -- Transform: dbt models
 - [ ] Phase 5 -- Orchestration: Airflow + Great Expectations
 - [ ] Phase 6 -- Deployment: Kubernetes + Jenkins
