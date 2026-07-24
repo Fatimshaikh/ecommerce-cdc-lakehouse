@@ -11,6 +11,7 @@
     "table.include.list": "public.customers,public.products,public.orders,public.order_items,public.payments",
     "plugin.name": "pgoutput",
     "slot.name": "ecom_slot",
-    "publication.autocreate.mode": "filtered"
+    "publication.autocreate.mode": "filtered",
+    "decimal.handling.mode": "double"
   }
 }
