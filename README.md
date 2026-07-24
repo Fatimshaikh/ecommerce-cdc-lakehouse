@@ -123,3 +123,17 @@ writes happen far less frequently, reducing connection churn.
 
 **Live CDC events from Kafka**
 ![CDC events](docs/screenshots/minio-bronze-bucket.png)
+
+**Numeric columns arrived as base64-encoded garbage (e.g. `'Xf8='`) instead of numbers**
+Cause: Debezium's default Postgres connector behavior encodes `NUMERIC`
+columns as raw bytes, which then serialize to base64 strings in JSON.
+Fix: added `"decimal.handling.mode": "double"` to the Debezium connector
+config, so numeric fields come through as plain doubles.
+
+**Kafka repeatedly failing to restart after laptop sleep/shutdown with `NodeExistsException`**
+Cause: Zookeeper retains broker registration state across ungraceful
+shutdowns, and Kafka refuses to start with a duplicate broker ID. Fix:
+full `docker compose down -v && docker compose up -d` to reset all
+state cleanly. Longer-term fix: always run `docker compose down`
+(without `-v`) before shutting down the machine, to let Kafka
+deregister gracefully.
